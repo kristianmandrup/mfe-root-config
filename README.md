@@ -82,3 +82,156 @@ Setup a CircleCI context with the following variables configured
 - `DEPLOYER_PASSWORD`
 - `DEPLOYER_USERNAME`
 - `GOOGLE_APPLICATION_CREDENTIALS_JSON`
+
+## Import Maps Deployer
+
+To deploy new releases of micro frontends, you will need to use [import-map-deployer](https://github.com/single-spa/import-map-deployer)
+
+## Cloud run
+
+Go to [Cloud Run](https://cloud.google.com/run/docs/deploying) and follow instructions to deploy an image.
+
+
+### Kubernetes Cluster setup for Import Maps Deployer
+
+Create a new cluster
+
+![image](../images/Cluster-Basics.png)
+
+Set min/max nodes to 1 (to avoid concurrency issues)
+
+![image](./images/Node-Pool.png)
+
+Grant access to write to Storage (similar to S3 bucket)
+
+![image](./images/Node-Security.png)
+
+You need to give the cluster either `Read and Write` or `Full` access to Storage
+
+![image](./images/Storage-Access.png)
+
+Create the cluster
+
+![image](./images/Cluster-Created.png)
+
+## Create storage
+
+Select `Create bucket`
+
+![image](./images/storage/Create-Bucket.png)
+
+Name bucket
+
+![image](./images/storage/Name-Bucket.png)
+
+Select `Region`
+
+![image](./images/storage/Bucket-Region.png)
+
+Grant `Uniform` access
+
+![image](./images/storage/Bucket-Access.png)
+
+Click `Create`
+
+# Deploying import map deployer to Kubernetes Cluster
+
+- [Install docker](https://hub.docker.com/editions/community/docker-ce-desktop-mac/)
+- [Install minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/)
+
+```sh
+$ minikube status
+$ minikube start
+🎉  minikube 1.7.3 is available! Download it: https://github.com/kubernetes/minikube/releases/tag/v1.7.3
+💡  To disable this notice, run: 'minikube config set WantUpdateNotification false'
+
+🙄  minikube v1.7.2 on Darwin 10.15.3
+✨  Using the hyperkit driver based on existing profile
+⌛  Reconfiguring existing host ...
+🔄  Starting existing hyperkit VM for "minikube" ...
+🐳  Preparing Kubernetes v1.17.2 on Docker 19.03.5 ...
+🚀  Launching Kubernetes ... 
+🌟  Enabling addons: default-storageclass, storage-provisioner
+🏄  Done! kubectl is now configured to use "minikube"
+```
+
+Also install `gcloud` the [Google Cloud CLI](https://cloud.google.com/sdk/gcloud/#downloading_the_gcloud_command-line_tool)
+
+Alternatively use the [Google Cloud shell](https://cloud.google.com/shell/)
+
+[Interactive gcloud download](https://cloud.google.com/sdk/docs/downloads-interactive)
+
+`$ gcloud components update`
+
+`import-map-deployer` is available on DockerHub as [singlespa/import-map-deployer](hub.docker.com/repository/docker/singlespa/import-map-deployer)
+
+To push any local image to Container Registry, you need to first tag it with the registry name and then push the image
+
+You can specify a container image with a tag (ie. `gcr.io/my-project/my-image:latest`)
+
+Choose a hostname, which specifies location where you will store the image:
+
+- `us.gcr.io` hosts image in data centers in the United States
+- `eu.gcr.io` hosts the images in the European Union
+- `asia.gcr.io` hosts images in data centers in Asia
+
+Combine the hostname, your Google Cloud Console project ID, and image name:
+
+`[HOSTNAME]/[PROJECT-ID]/[IMAGE]`
+
+Configure gcloud for docker
+
+```sh
+$ gcloud auth configure-docker
+After update, the following will be written to your Docker config file
+ located at /Users/[username]/.docker/config.json:
+ {
+  "credHelpers": {
+    "gcr.io": "gcloud",
+    "marketplace.gcr.io": "gcloud",
+    "eu.gcr.io": "gcloud",
+    "us.gcr.io": "gcloud",
+    "staging-k8s.gcr.io": "gcloud",
+    "asia.gcr.io": "gcloud"
+  }
+}
+```
+
+Now clone the `import-map-deployer` repo
+
+```sh
+$ git clone git@github.com:single-spa/import-map-deployer.git
+```
+
+Build the docker image
+
+```sh
+$ docker build .
+# ...
+Successfully built 5047af9771ae
+```
+
+Tag it correctly according to the [Google Cloud specification](https://cloud.google.com/container-registry/docs/pushing-and-pulling)
+
+```sh
+$ docker tag 5047af9771ae us.gcr.io/micro-frontend-app/cluster-1
+```
+
+Push the tagged image to Google Cloud
+
+```sh
+$ docker push us.gcr.io/micro-frontend-app/cluster-1
+The push refers to repository [us.gcr.io/micro-frontend-app/cluster-1]
+320b46caf779: Pushed
+acbc324f81b2: Pushed
+d32c38cd5689: Pushed
+3fc64803ca2d: Layer already exists
+latest: digest: sha256:ae8fa7dd5aecfe7c6c565b1d3453e665e4300140a6f8ae9f8c99163311f5123d size: 1162
+```
+
+### Troubleshooting
+
+[Mac OS Troubleshoot: Can't connect to Docker daemon](https://stackoverflow.com/questions/44084846/cannot-connect-to-the-docker-daemon-on-macos)
+
+Make sure the docker whale icon is visible in the top status bar. If not, go to `Applications` and 
+activate the `Docker app` whale icon to start Docker.
