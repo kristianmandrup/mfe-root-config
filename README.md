@@ -214,14 +214,14 @@ Successfully built 5047af9771ae
 Tag it correctly according to the [Google Cloud specification](https://cloud.google.com/container-registry/docs/pushing-and-pulling)
 
 ```sh
-$ docker tag 5047af9771ae us.gcr.io/micro-frontend-app/cluster-1
+$ docker tag 5047af9771ae us.gcr.io/micro-frontend-app/importmap-deployer:dev
 ```
 
 Push the tagged image to Google Cloud
 
 ```sh
-$ docker push us.gcr.io/micro-frontend-app/cluster-1
-The push refers to repository [us.gcr.io/micro-frontend-app/cluster-1]
+$ docker push us.gcr.io/micro-frontend-app/importmap-deployer:dev
+The push refers to repository [us.gcr.io/micro-frontend-app/importmap-deployer:dev]
 320b46caf779: Pushed
 acbc324f81b2: Pushed
 d32c38cd5689: Pushed
@@ -229,7 +229,47 @@ d32c38cd5689: Pushed
 latest: digest: sha256:ae8fa7dd5aecfe7c6c565b1d3453e665e4300140a6f8ae9f8c99163311f5123d size: 1162
 ```
 
-### Troubleshooting
+## Deploy image
+
+Go to GCP clusters. See cluster details. Click `Deploy` button in action bar
+
+![image](./images/deploy-cluster/Cluster-Details.png)
+
+On the Create Deployment select `New container image` and click `Select` to select it
+
+![image](./images/deploy-cluster/Create-Deployment.png)
+
+Select the image to deploy by clicking down arrow on image tag name
+
+![image](./images/deploy-cluster/Select-Image-To-Deploy.png)
+
+Then select the image version to deploy
+
+![image](./images/deploy-cluster/Select-Image-2.png)
+
+The selected image should now be displayed
+
+![image](./images/deploy-cluster/Image-Selected.png)
+
+Click `Done` and `Continue` to enter the `Configuration`
+
+![image](./images/deploy-cluster/Enter-App-Name.png)
+
+Enter an application name, then scroll to the bottom and click `Deploy`
+
+### Troubleshooting deploy
+
+In case you get deployment errors...
+
+Deployment Error
+
+![image](./images/deploy-cluster/Deploy-Error.png)
+
+Deployment Details
+
+![image](./images/deploy-cluster/Deploy-Error-Details.png)
+
+## Troubleshoot docker
 
 [Mac OS Troubleshoot: Can't connect to Docker daemon](https://stackoverflow.com/questions/44084846/cannot-connect-to-the-docker-daemon-on-macos)
 
