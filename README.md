@@ -67,3 +67,18 @@ Now follow the steps above for "One module at a time" for each of the modules yo
 ## Adapting for your organization
 
 Feel free to fork and modify any files you would like when doing a proof of concept for your organization. When it's time to actually create / adapt your organization's projects, consider using [create-single-spa](https://single-spa.js.org/docs/create-single-spa) instead of forking this repository.
+
+## CircleCI setup
+
+- [Video: Deploying Microfrontends Part 1 - Import Map Deployer](https://www.youtube.com/watch?v=QHunH3MFPZs&list=PLLUD8RtHvsAOhtHnyGx57EYXoaNsxGrTU&index=5)
+- [Video: Deploying Microfrontends Part 2 - CI for in-browser modules](https://www.youtube.com/watch?v=nC7rpDXa4B8&list=PLLUD8RtHvsAOhtHnyGx57EYXoaNsxGrTU&index=6)
+
+Setup a CircleCI context with the following variables configured
+
+- `BUCKET_NAME`
+- `CF_PUBLIC_URL`
+- `DEPLOYER_ENV`
+- `DEPLOYER_HOST`
+- `DEPLOYER_PASSWORD`
+- `DEPLOYER_USERNAME`
+- `GOOGLE_APPLICATION_CREDENTIALS_JSON`
