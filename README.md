@@ -96,7 +96,7 @@ Go to [Cloud Run](https://cloud.google.com/run/docs/deploying) and follow instru
 
 Create a new cluster
 
-![image](../images/Cluster-Basics.png)
+![image](./images/Cluster-Basics.png)
 
 Set min/max nodes to 1 (to avoid concurrency issues)
 
@@ -157,11 +157,11 @@ $ minikube start
 
 Also install `gcloud` the [Google Cloud CLI](https://cloud.google.com/sdk/gcloud/#downloading_the_gcloud_command-line_tool)
 
-Alternatively use the [Google Cloud shell](https://cloud.google.com/shell/)
+Alternatively use the [Google Cloud shell](https://cloud.google.com/shell/) from the browser
 
 [Interactive gcloud download](https://cloud.google.com/sdk/docs/downloads-interactive)
 
-`$ gcloud components update`
+Run `$ gcloud components update` to get latest gcloud updates
 
 `import-map-deployer` is available on DockerHub as [singlespa/import-map-deployer](hub.docker.com/repository/docker/singlespa/import-map-deployer)
 
@@ -178,6 +178,8 @@ Choose a hostname, which specifies location where you will store the image:
 Combine the hostname, your Google Cloud Console project ID, and image name:
 
 `[HOSTNAME]/[PROJECT-ID]/[IMAGE]`
+
+## Gloud setup
 
 Configure gcloud for docker
 
@@ -196,6 +198,8 @@ After update, the following will be written to your Docker config file
   }
 }
 ```
+
+## Deploy import map deployer
 
 Now clone the `import-map-deployer` repo
 
