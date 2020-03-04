@@ -101,7 +101,7 @@ Create a new cluster
 
 ![image](./images/Cluster-Basics.png)
 
-Set min/max nodes to 1 (to avoid concurrency issues)
+Set Nodes count to ` (don't set auto-scaling!)
 
 ![image](./images/Node-Pool.png)
 
