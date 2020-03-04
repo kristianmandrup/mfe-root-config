@@ -86,13 +86,16 @@ Setup a CircleCI context with the following variables configured
 ## Import Maps Deployer
 
 To deploy new releases of micro frontends, you will need to use [import-map-deployer](https://github.com/single-spa/import-map-deployer)
+On GCP, you can use either:
+
+- Cloud Run (managed service)
+- Kubernetes cluster
 
 ## Cloud run
 
 Go to [Cloud Run](https://cloud.google.com/run/docs/deploying) and follow instructions to deploy an image.
 
-
-### Kubernetes Cluster setup for Import Maps Deployer
+## Kubernetes Cluster setup for Import Maps Deployer
 
 Create a new cluster
 
